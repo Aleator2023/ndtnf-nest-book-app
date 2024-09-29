@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { BooksService } from './books/books.service';
-import { BooksController } from './books/books.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { BooksModule } from './books/books.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, BooksController],
-  providers: [AppService, BooksService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/nest_books'), // Подключение к MongoDB
+    BooksModule, // Импорт модуля книг
+  ],
 })
 export class AppModule {}

@@ -1,27 +1,30 @@
 import { Injectable } from '@nestjs/common';
-
-export interface Book {
-  id: number;
-  title: string;
-  author: string;
-}
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Book, BookDocument } from './book.schema';
 
 @Injectable()
 export class BooksService {
-  private books: Book[] = [
-    { id: 1, title: 'Book 1', author: 'Author 1' },
-    { id: 2, title: 'Book 2', author: 'Author 2' },
-  ];
+  constructor(@InjectModel(Book.name) private bookModel: Model<BookDocument>) {}
 
-  findAll(): Book[] {
-    return this.books;
+  async findAll(): Promise<Book[]> {
+    return this.bookModel.find().exec();
   }
 
-  findOne(id: number): Book | undefined {
-    return this.books.find(book => book.id === id);
+  async findOne(id: string): Promise<Book> {
+    return this.bookModel.findById(id).exec();
   }
 
-  create(book: Book): void {
-    this.books.push(book);
+  async create(book: Book): Promise<Book> {
+    const newBook = new this.bookModel(book);
+    return newBook.save();
+  }
+
+  async update(id: string, book: Book): Promise<Book> {
+    return this.bookModel.findByIdAndUpdate(id, book, { new: true }).exec();
+  }
+
+  async delete(id: string): Promise<Book> {
+    return this.bookModel.findByIdAndDelete(id).exec();
   }
 }
