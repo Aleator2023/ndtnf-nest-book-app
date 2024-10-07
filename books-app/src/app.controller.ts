@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('error')
+  throwError(): string {
+    throw new Error('Intentional error');
+  }
 }
