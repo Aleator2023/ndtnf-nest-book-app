@@ -16,9 +16,9 @@ export class BooksService {
   }
 
   async create(book: Book): Promise<Book> {
-    const newBook = new this.bookModel(book);
-    return newBook.save();
+    return this.bookModel.create(book);  
   }
+
 
   async update(id: string, book: Book): Promise<Book> {
     return this.bookModel.findByIdAndUpdate(id, book, { new: true }).exec();
