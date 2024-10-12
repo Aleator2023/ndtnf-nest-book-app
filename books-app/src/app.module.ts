@@ -10,11 +10,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users.controller';
 import { AuthModule } from './auth/auth.module';
+import { BookCommentsModule } from './book-comments/book-comments.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/nest_books'),
     BooksModule,
+    BookCommentsModule,
     HttpModule,
     AuthModule,
   ],
